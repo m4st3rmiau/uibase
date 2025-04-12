@@ -300,7 +300,7 @@ export default function Home() {
 
   const ComponentListScrollArea = useMemo(
     () => (
-      <ScrollArea className="h-[calc(100vh-3rem)] bg-background">
+      <ScrollArea className="h-[calc(100vh-4rem)] bg-background">
         <div className="p-4">
           <Tabs value={activeComponentTab} onValueChange={setActiveComponentTab} className="w-full">
             <TabsContent value="components" className="mt-0">
