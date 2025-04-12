@@ -187,7 +187,7 @@ export default function RepositorioPage() {
   }
 
   return (
-    <div className="fixed inset-0 top-16 bg-background border-t border-zinc-100">
+    <div className="fixed inset-0 bg-background">
       <div className="grid h-full" style={{ gridTemplateColumns: "4rem 1fr" }}>
         {/* Sidebar */}
         <Sidebar initialSelectedIcon="folder" />
@@ -201,7 +201,7 @@ export default function RepositorioPage() {
               New Repository
             </Button>
           </div>
-          <ScrollArea className="h-[calc(100vh-8rem)]">
+          <ScrollArea className="h-[calc(100vh-3rem)]">
             <div className="p-4 space-y-4">
               {isLoading ? (
                 <div className="flex items-center justify-center h-[calc(100vh-12rem)]">

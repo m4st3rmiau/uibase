@@ -24,7 +24,7 @@ export default function CodeViewer({ code, language = "jsx" }: CodeViewerProps) 
   }
 
   return (
-    <Card className="relative overflow-hidden border-none shadow-none p-0 max-h-[70vh]">
+    <Card className="relative bg-none overflow-hidden border-none rounded-none shadow-none p-0">
       <div className="absolute top-2 right-2 z-10">
         <Button
           variant="ghost"
@@ -36,14 +36,13 @@ export default function CodeViewer({ code, language = "jsx" }: CodeViewerProps) 
           <span className="sr-only">Copy code</span>
         </Button>
       </div>
-      <div className="overflow-auto max-h-[70vh]">
+      <div className="overflow-auto h-[calc(100vh-3rem)] bg-[#101012]">
         <SyntaxHighlighter
           language={language}
           style={vscDarkPlus}
           showLineNumbers={true}
           customStyle={{
             margin: 0,
-            borderRadius: "0.5rem",
             padding: "1rem",
             paddingTop: "2rem",
             background: "#101012",

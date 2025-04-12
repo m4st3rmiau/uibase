@@ -1,5 +1,5 @@
 "use client"
-import { LogOut, User, Github, Twitter, Coffee, Menu } from "lucide-react"
+import { LogOut, User, Menu } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
@@ -25,6 +25,12 @@ export function Navbar({ initialSession }: { initialSession: any | null }) {
   const router = useRouter()
   const isMobile = useMediaQuery("(max-width: 640px)")
   const [open, setOpen] = useState(false)
+  const [hasMounted, setHasMounted] = useState(false)
+  const [activeSection, setActiveSection] = useState("")
+
+  useEffect(() => {
+    setHasMounted(true)
+  }, [])
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -48,57 +54,74 @@ export function Navbar({ initialSession }: { initialSession: any | null }) {
     }
   }, [])
 
+  // Add scroll spy effect to highlight active section in navbar
+  useEffect(() => {
+    if (pathname !== "/") return
+
+    const handleScroll = () => {
+      const sections = ["examples", "features", "how-it-works", "roadmap", "faq"]
+
+      for (const section of sections) {
+        const element = document.getElementById(section)
+        if (!element) continue
+
+        const rect = element.getBoundingClientRect()
+        if (rect.top <= 100 && rect.bottom >= 100) {
+          setActiveSection(section)
+          break
+        }
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    handleScroll() // Initial check
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+    }
+  }, [pathname])
+
   const handleSignOut = async () => {
     await supabase.auth.signOut()
     router.push("/")
     window.dispatchEvent(new Event("logout"))
   }
 
+  const scrollToSection = (sectionId: string) => {
+    setOpen(false)
+    const element = document.getElementById(sectionId)
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" })
+    }
+  }
+
   const MobileMenu = () => (
     <SheetContent side="left" className="w-[300px] sm:w-[400px]">
       <nav className="flex flex-col gap-4">
-        {!user && (
-          <Link href="/" className="block px-2 py-1 text-lg text-left" onClick={() => setOpen(false)}>
-            Home
-          </Link>
-        )}
-        <Link href="/playground" className="block px-2 py-1 text-lg text-left" onClick={() => setOpen(false)}>
+        <button className="block px-2 py-1 text-lg text-left" onClick={() => scrollToSection("examples")}>
+          Examples
+        </button>
+        <button className="block px-2 py-1 text-lg text-left" onClick={() => scrollToSection("features")}>
+          Features
+        </button>
+        <button className="block px-2 py-1 text-lg text-left" onClick={() => scrollToSection("how-it-works")}>
+          How It Works
+        </button>
+        <button className="block px-2 py-1 text-lg text-left" onClick={() => scrollToSection("roadmap")}>
+          Roadmap
+        </button>
+        <button className="block px-2 py-1 text-lg text-left" onClick={() => scrollToSection("faq")}>
+          FAQ
+        </button>
+        <Link
+          href="/playground"
+          className="block px-2 py-1 text-lg text-left font-medium"
+          onClick={() => setOpen(false)}
+        >
           Playground
-        </Link>
-        <Link href="/components" className="block px-2 py-1 text-lg text-left" onClick={() => setOpen(false)}>
-          Components
-        </Link>
-        <Link href="/repositorio" className="block px-2 py-1 text-lg text-left" onClick={() => setOpen(false)}>
-          Repositorio
         </Link>
       </nav>
       <div className="flex flex-col gap-4 mt-4">
-        <Link href="https://github.com/m4st3rmiau" target="_blank" rel="noopener noreferrer">
-          <Button
-            variant="outline"
-            className="w-full justify-center rounded-full bg-transparent"
-            onClick={() => setOpen(false)}
-          >
-            <Github className="mr-2 h-4 w-4" />
-            GitHub
-          </Button>
-        </Link>
-        <Link href="https://x.com/Maoo_lop" target="_blank" rel="noopener noreferrer">
-          <Button variant="outline" className="w-full justify-center rounded-full" onClick={() => setOpen(false)}>
-            <Twitter className="mr-2 h-4 w-4" />
-            Twitter
-          </Button>
-        </Link>
-        <Link href="https://buymeacoffee.com/m4st3reditg" target="_blank" rel="noopener noreferrer">
-          <Button
-            variant="outline"
-            className="w-full justify-center rounded-full bg-yellow-400 hover:bg-yellow-500"
-            onClick={() => setOpen(false)}
-          >
-            <Coffee className="mr-2 h-4 w-4" />
-            Buy Me a Coffee
-          </Button>
-        </Link>
         {user ? (
           <Button
             variant="outline"
@@ -127,49 +150,63 @@ export function Navbar({ initialSession }: { initialSession: any | null }) {
     </SheetContent>
   )
 
+  if (pathname === "/playground" || pathname === "/components" || pathname === "/repositorio") {
+    return null
+  }
+
+  if (!hasMounted) {
+    return null
+  }
+
   return (
     <nav className="fixed top-0 left-0 right-0 bg-background z-50 border-b border-border">
       <div className="flex h-16 items-center px-6 justify-between max-w-screen-2xl mx-auto">
-        <Link href={user ? "/playground" : "/"}>
+        <Link href="/">
           <Image src="/logo.png" alt="uibase Logo" width={110} height={0} />
         </Link>
         {!isMobile && (
           <nav className="flex-1 flex justify-center">
             <nav className="flex items-center space-x-6 text-sm">
-              {!user && (
-                <Link
-                  href="/"
-                  className={`transition-colors hover:text-primary ${
-                    pathname === "/" ? "font-medium" : "font-normal text-muted-foreground"
-                  }`}
-                >
-                  Home
-                </Link>
-              )}
-              <Link
-                href="/playground"
+              <button
+                onClick={() => scrollToSection("examples")}
                 className={`transition-colors hover:text-primary ${
-                  pathname === "/playground" ? "font-medium" : "font-normal text-muted-foreground"
+                  activeSection === "examples" ? "font-medium" : "font-normal text-muted-foreground"
                 }`}
               >
-                Playground
-              </Link>
-              <Link
-                href="/components"
+                Examples
+              </button>
+              <button
+                onClick={() => scrollToSection("features")}
                 className={`transition-colors hover:text-primary ${
-                  pathname === "/components" ? "font-medium" : "font-normal text-muted-foreground"
+                  activeSection === "features" ? "font-medium" : "font-normal text-muted-foreground"
                 }`}
               >
-                Components
-              </Link>
-              <Link
-                href="/repositorio"
+                Features
+              </button>
+              <button
+                onClick={() => scrollToSection("how-it-works")}
                 className={`transition-colors hover:text-primary ${
-                  pathname === "/repositorio" ? "font-medium" : "font-normal text-muted-foreground"
+                  activeSection === "how-it-works" ? "font-medium" : "font-normal text-muted-foreground"
                 }`}
               >
-                Repositorio
-              </Link>
+                How It Works
+              </button>
+              <button
+                onClick={() => scrollToSection("roadmap")}
+                className={`transition-colors hover:text-primary ${
+                  activeSection === "roadmap" ? "font-medium" : "font-normal text-muted-foreground"
+                }`}
+              >
+                Roadmap
+              </button>
+              <button
+                onClick={() => scrollToSection("faq")}
+                className={`transition-colors hover:text-primary ${
+                  activeSection === "faq" ? "font-medium" : "font-normal text-muted-foreground"
+                }`}
+              >
+                FAQ
+              </button>
             </nav>
           </nav>
         )}
@@ -186,30 +223,6 @@ export function Navbar({ initialSession }: { initialSession: any | null }) {
             </Sheet>
           ) : (
             <>
-              <div className="flex items-center gap-2">
-                <Link href="https://github.com/m4st3rmiau" target="_blank" rel="noopener noreferrer">
-                  <Button variant="outline" size="icon" className="rounded-full bg-background hover:bg-accent">
-                    <Github className="h-5 w-5" />
-                    <span className="sr-only">GitHub</span>
-                  </Button>
-                </Link>
-                <Link href="https://x.com/Maoo_lop" target="_blank" rel="noopener noreferrer">
-                  <Button variant="outline" size="icon" className="rounded-full bg-background hover:bg-accent">
-                    <Twitter className="h-5 w-5" />
-                    <span className="sr-only">Twitter</span>
-                  </Button>
-                </Link>
-                <Link href="https://buymeacoffee.com/m4st3reditg" target="_blank" rel="noopener noreferrer">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="rounded-full bg-yellow-400 hover:bg-yellow-500 text-black dark:text-black"
-                  >
-                    <Coffee className="h-5 w-5" />
-                    <span className="sr-only">Buy Me a Coffee</span>
-                  </Button>
-                </Link>
-              </div>
               {user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger>
@@ -237,6 +250,11 @@ export function Navbar({ initialSession }: { initialSession: any | null }) {
                   Log in
                 </Button>
               )}
+              <Link href="/playground">
+                <Button className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90">
+                  Playground
+                </Button>
+              </Link>
             </>
           )}
         </div>

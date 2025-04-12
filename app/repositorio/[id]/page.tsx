@@ -797,7 +797,7 @@ ${themeVars[currentTheme as keyof typeof themeVars]?.dark || themeVars.blue.dark
             </div>
           </div>
 
-          <ScrollArea className="h-[calc(100vh-8rem)]">
+          <ScrollArea className="h-[calc(100vh-3rem)]">
             <div className="p-4">
               {isLoading ? (
                 <div className="flex items-center justify-center h-[calc(100vh-12rem)]">

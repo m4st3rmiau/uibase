@@ -3,7 +3,7 @@
 import { ThemeProvider as NextThemesProvider } from "next-themes"
 import type { ThemeProviderProps } from "next-themes"
 import { createContext, useContext, useEffect, useState } from "react"
-import type { ThemeRadius, Typography } from "@/lib/themes"
+import type { Typography } from "@/lib/themes"
 
 // Define the theme context type
 type ThemeContextType = {
@@ -76,3 +76,5 @@ export function Providers({ children, ...props }: ThemeProviderProps) {
     </ThemeContext.Provider>
   )
 }
+
+export type ThemeRadius = "0" | "0.3" | "0.5" | "0.75" | "1.0"

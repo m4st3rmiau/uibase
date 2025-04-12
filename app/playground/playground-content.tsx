@@ -300,7 +300,7 @@ export default function Home() {
 
   const ComponentListScrollArea = useMemo(
     () => (
-      <ScrollArea className="h-[calc(100vh-8rem)] bg-background">
+      <ScrollArea className="h-[calc(100vh-3rem)] bg-background">
         <div className="p-4">
           <Tabs value={activeComponentTab} onValueChange={setActiveComponentTab} className="w-full">
             <TabsContent value="components" className="mt-0">
@@ -507,8 +507,8 @@ export default function Home() {
 
   const PreviewScrollArea = useMemo(
     () => (
-      <div className="h-[calc(100vh-8rem)]">
-        <div className="h-[calc(100vh-8rem)] relative">
+      <div className="h-[calc(100vh-3rem)]">
+        <div className="h-[calc(100vh-3rem)] relative">
           <PreviewArea
             onDrop={handleDrop}
             components={components}
@@ -887,7 +887,7 @@ export default function Home() {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="fixed inset-0 top-16 bg-background border-t border-border">
+      <div className="fixed inset-0 bg-background">
         <div className="grid h-full" style={{ gridTemplateColumns: "4rem 320px 1fr" }}>
           {/* Sidebar */}
           <Sidebar initialSelectedIcon="plus" />
@@ -979,14 +979,14 @@ export default function Home() {
             <div className="flex-1 overflow-auto preview-area">
               {activeTab === "preview" && PreviewScrollArea}
               {activeTab === "code" && (
-                <div className="h-[calc(100vh-8rem)] bg-[#101012] overflow-auto">
-                  <div className="p-4">
+                <div className="h-[calc(100vh-3rem)] bg-[#101012] overflow-auto">
+                  <div>
                     {activeComponent ? (
                       <div className="overflow-visible">
                         <CodeViewer code={generateCode(activeComponent)} language="jsx" />
                       </div>
                     ) : (
-                      <div className="flex flex-col items-center justify-center h-[calc(100vh-12rem)] text-center text-white">
+                      <div className="flex flex-col items-center justify-center h-[calc(100vh-3rem)] text-center text-white">
                         <Code className="h-8 w-8 text-zinc-400 mb-4" />
                         <h3 className="font-medium mb-2 text-white">No component selected</h3>
                         <p className="text-sm text-zinc-400 max-w-md">
@@ -999,7 +999,7 @@ export default function Home() {
                 </div>
               )}
               {activeTab === "install" && (
-                <ScrollArea className="h-[calc(100vh-8rem)]">
+                <ScrollArea className="h-[calc(100vh-3rem)]">
                   <div className="p-4">
                     <div className="max-w-3xl mx-auto py-8">
                       <InstallationSteps steps={getInstallationSteps(activeComponent)} />
