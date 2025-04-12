@@ -33,21 +33,30 @@ export function Sidebar({ initialSelectedIcon }: SidebarProps) {
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false)
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
   const { setTheme, theme } = useTheme()
-  const [user, setUser] = useState<any | null>(null)
+  const [user, setUser] = useState<any | null>(() => {
+    // Try to get user from localStorage first to prevent flickering
+    const storedUser = typeof window !== "undefined" ? localStorage.getItem("sb-user") : null
+    return storedUser ? JSON.parse(storedUser) : null
+  })
 
   useEffect(() => {
     const fetchUser = async () => {
       const {
         data: { user },
       } = await supabase.auth.getUser()
+      if (user) {
+        localStorage.setItem("sb-user", JSON.stringify(user))
+      }
       setUser(user)
     }
     fetchUser()
 
     const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === "SIGNED_IN") {
+        localStorage.setItem("sb-user", JSON.stringify(session?.user || null))
         setUser(session?.user || null)
       } else if (event === "SIGNED_OUT") {
+        localStorage.removeItem("sb-user")
         setUser(null)
       }
     })
@@ -160,8 +169,15 @@ export function Sidebar({ initialSelectedIcon }: SidebarProps) {
                   className="rounded-full hover:bg-accent mb-4 left-4 p-0 h-9 w-9 overflow-hidden"
                 >
                   <Avatar className="h-9 w-9 border-2 border-primary/10 transition-all duration-200 hover:border-primary/30">
-                    {user.user_metadata.avatar_url && <AvatarImage src={user.user_metadata.avatar_url} alt="Avatar" />}
-                    <AvatarFallback>{user.email?.charAt(0).toUpperCase() || "U"}</AvatarFallback>
+                    {user.user_metadata?.avatar_url ? (
+                      <AvatarImage
+                        src={user.user_metadata.avatar_url || "/placeholder.svg"}
+                        alt="Avatar"
+                        className="object-cover"
+                      />
+                    ) : (
+                      <AvatarFallback>{user.email?.charAt(0).toUpperCase() || "U"}</AvatarFallback>
+                    )}
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
@@ -173,7 +189,7 @@ export function Sidebar({ initialSelectedIcon }: SidebarProps) {
                   <div className="flex items-center gap-3">
                     <Avatar className="h-12 w-12 border-2 border-background shadow-sm">
                       {user.user_metadata.avatar_url && (
-                        <AvatarImage src={user.user_metadata.avatar_url} alt="Avatar" />
+                        <AvatarImage src={user.user_metadata.avatar_url || "/placeholder.svg"} alt="Avatar" />
                       )}
                       <AvatarFallback>{user.email?.charAt(0).toUpperCase() || "U"}</AvatarFallback>
                     </Avatar>

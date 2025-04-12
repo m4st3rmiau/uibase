@@ -21,7 +21,11 @@ import { useMediaQuery } from "@/hooks/use-media-query"
 
 export function Navbar({ initialSession }: { initialSession: any | null }) {
   const pathname = usePathname()
-  const [user, setUser] = useState<any | null>(initialSession?.user || null)
+  const [user, setUser] = useState<any | null>(() => {
+    // Try to get user from localStorage first to prevent flickering
+    const storedUser = typeof window !== "undefined" ? localStorage.getItem("sb-user") : null
+    return storedUser ? JSON.parse(storedUser) : initialSession?.user || null
+  })
   const router = useRouter()
   const isMobile = useMediaQuery("(max-width: 640px)")
   const [open, setOpen] = useState(false)
@@ -37,14 +41,19 @@ export function Navbar({ initialSession }: { initialSession: any | null }) {
       const {
         data: { user },
       } = await supabase.auth.getUser()
+      if (user) {
+        localStorage.setItem("sb-user", JSON.stringify(user))
+      }
       setUser(user)
     }
     fetchUser()
 
     const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === "SIGNED_IN") {
+        localStorage.setItem("sb-user", JSON.stringify(session?.user || null))
         setUser(session?.user || null)
       } else if (event === "SIGNED_OUT") {
+        localStorage.removeItem("sb-user")
         setUser(null)
       }
     })
@@ -82,6 +91,7 @@ export function Navbar({ initialSession }: { initialSession: any | null }) {
   }, [pathname])
 
   const handleSignOut = async () => {
+    localStorage.removeItem("sb-user")
     await supabase.auth.signOut()
     router.push("/")
     window.dispatchEvent(new Event("logout"))
@@ -228,7 +238,7 @@ export function Navbar({ initialSession }: { initialSession: any | null }) {
                   <DropdownMenuTrigger>
                     <Avatar className="h-10 w-10">
                       {user.user_metadata.avatar_url && (
-                        <AvatarImage src={user.user_metadata.avatar_url} alt="Avatar" />
+                        <AvatarImage src={user.user_metadata.avatar_url || "/placeholder.svg"} alt="Avatar" />
                       )}
                       <AvatarFallback>{user.email?.charAt(0).toUpperCase() || "U"}</AvatarFallback>
                     </Avatar>
