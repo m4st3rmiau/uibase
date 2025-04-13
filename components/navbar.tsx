@@ -160,7 +160,7 @@ export function Navbar({ initialSession }: { initialSession: any | null }) {
     </SheetContent>
   )
 
-  if (pathname === "/playground" || pathname === "/components" || pathname === "/repositorio") {
+  if (pathname === "/playground" || pathname === "/themes" || pathname === "/repositorio") {
     return null
   }
 

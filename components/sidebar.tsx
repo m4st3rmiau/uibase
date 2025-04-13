@@ -66,16 +66,6 @@ export function Sidebar({ initialSelectedIcon }: SidebarProps) {
     }
   }, [])
 
-  useEffect(() => {
-    if (pathname.startsWith("/playground")) {
-      setSelectedIcon("plus")
-    } else if (pathname.startsWith("/components")) {
-      setSelectedIcon("book")
-    } else if (pathname.startsWith("/repositorio")) {
-      setSelectedIcon("folder")
-    }
-  }, [pathname])
-
   const handleIconClick = (iconName: string) => {
     if (iconName !== "help") {
       setSelectedIcon(iconName as any)
@@ -86,7 +76,7 @@ export function Sidebar({ initialSelectedIcon }: SidebarProps) {
         router.push("/playground")
         break
       case "book":
-        router.push("/components")
+        router.push("/themes")
         break
       case "folder":
         router.push("/repositorio")
@@ -96,6 +86,16 @@ export function Sidebar({ initialSelectedIcon }: SidebarProps) {
         break
     }
   }
+
+  useEffect(() => {
+    if (pathname.startsWith("/playground")) {
+      setSelectedIcon("plus")
+    } else if (pathname.startsWith("/themes")) {
+      setSelectedIcon("book")
+    } else if (pathname.startsWith("/repositorio")) {
+      setSelectedIcon("folder")
+    }
+  }, [pathname])
 
   const handleLogoClick = () => {
     if (user) {
