@@ -86,50 +86,44 @@ export function EditableAlert({ props }: EditableAlertProps) {
   // Define variant classes with border colors for different emphasis levels
   const variantClasses = {
     default: {
-      low: "bg-white text-black dark:bg-gray-950 dark:text-white border border-[#ECECED] dark:border-gray-800 shadow-[0px_1px_1px_0.05px_#18181B14]",
-      medium: "bg-transparent text-black dark:text-white border border-gray-200 dark:border-gray-700",
-      high: "bg-black text-white dark:bg-white dark:text-black",
+      low: "bg-card text-card-foreground border border-border shadow-sm",
+      medium: "bg-transparent text-foreground border border-border",
+      high: "bg-foreground text-background",
     },
     accent: {
-      low: "bg-white text-black dark:bg-gray-950 dark:text-white border border-[#ECECED] dark:border-gray-800 shadow-[0px_1px_1px_0.05px_#18181B14]",
-      medium: "bg-blue-500/10 text-blue-500 border border-blue-200 dark:border-blue-800",
+      low: "bg-card text-card-foreground border border-border shadow-sm",
+      medium: "bg-blue-500/10 text-blue-500 border border-blue-500/20",
       high: "bg-blue-500 text-white",
     },
     destructive: {
-      low: "bg-white text-black dark:bg-gray-950 dark:text-white border border-[#ECECED] dark:border-gray-800 shadow-[0px_1px_1px_0.05px_#18181B14]",
-      medium:
-        "bg-red-500/10 text-red-700 dark:text-red-300 hover:bg-red-500/20 border border-red-200 dark:border-red-800",
-      high: "bg-red-500 text-white hover:bg-red-600",
+      low: "bg-card text-card-foreground border border-border shadow-sm",
+      medium: "bg-destructive/10 text-destructive hover:bg-destructive/20 border border-destructive/20",
+      high: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
     },
     ghost: {
-      low: "bg-white text-black dark:bg-gray-950 dark:text-white border border-[#ECECED] dark:border-gray-800 shadow-[0px_1px_1px_0.05px_#18181B14]",
-      medium:
-        "bg-gray-500/10 text-gray-700 dark:text-gray-300 hover:bg-gray-500/20 border border-gray-200 dark:border-gray-700",
-      high: "bg-gray-500 text-white hover:bg-gray-600",
+      low: "bg-card text-card-foreground border border-border shadow-sm",
+      medium: "bg-muted text-muted-foreground hover:bg-muted/80 border border-border",
+      high: "bg-muted text-foreground hover:bg-muted/80",
     },
     error: {
-      low: "bg-white text-black dark:bg-gray-950 dark:text-white border border-[#ECECED] dark:border-gray-800 shadow-[0px_1px_1px_0.05px_#18181B14]",
-      medium:
-        "bg-red-500/10 text-red-700 dark:text-red-300 hover:bg-red-500/20 border border-red-200 dark:border-red-800",
-      high: "bg-red-500 text-white hover:bg-red-600",
+      low: "bg-card text-card-foreground border border-border shadow-sm",
+      medium: "bg-destructive/10 text-destructive hover:bg-destructive/20 border border-destructive/20",
+      high: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
     },
     warning: {
-      low: "bg-white text-black dark:bg-gray-950 dark:text-white border border-[#ECECED] dark:border-gray-800 shadow-[0px_1px_1px_0.05px_#18181B14]",
-      medium:
-        "bg-yellow-500/10 text-yellow-700 dark:text-yellow-300 hover:bg-yellow-500/20 border border-yellow-200 dark:border-yellow-800",
+      low: "bg-card text-card-foreground border border-border shadow-sm",
+      medium: "bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 hover:bg-yellow-500/20 border border-yellow-500/20",
       high: "bg-yellow-600 text-white hover:bg-yellow-700",
     },
     success: {
-      low: "bg-white text-black dark:bg-gray-950 dark:text-white border border-[#ECECED] dark:border-gray-800 shadow-[0px_1px_1px_0.05px_#18181B14]",
-      medium:
-        "bg-green-500/10 text-green-700 dark:text-green-300 hover:bg-green-500/20 border border-green-200 dark:border-green-800",
+      low: "bg-card text-card-foreground border border-border shadow-sm",
+      medium: "bg-green-500/10 text-green-600 dark:text-green-400 hover:bg-green-500/20 border border-green-500/20",
       high: "bg-green-500 text-white hover:bg-green-600",
     },
     neutral: {
-      low: "bg-white text-black dark:bg-gray-950 dark:text-white border border-[#ECECED] dark:border-gray-800 shadow-[0px_1px_1px_0.05px_#18181B14]",
-      medium:
-        "bg-gray-500/10 text-gray-700 dark:text-gray-300 hover:bg-gray-500/20 border border-gray-200 dark:border-gray-700",
-      high: "bg-gray-800 text-white hover:bg-gray-900",
+      low: "bg-card text-card-foreground border border-border shadow-sm",
+      medium: "bg-muted text-muted-foreground hover:bg-muted/80 border border-border",
+      high: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
     },
   }
 
@@ -175,8 +169,8 @@ export function EditableAlert({ props }: EditableAlertProps) {
                     className={cn(
                       "h-8", // Set height to 32px (h-8)
                       buttonVariant === "default" ? "bg-primary text-primary-foreground hover:bg-primary/90" : "",
-                      buttonVariant === "outline" ? "border-gray-200 dark:border-gray-700" : "",
-                      variant === "default" && buttonVariant === "outline" ? "text-black dark:text-white" : "",
+                      buttonVariant === "outline" ? "border-border" : "",
+                      variant === "default" && buttonVariant === "outline" ? "text-foreground" : "",
                     )}
                   >
                     {actionButtonText || "Action"}

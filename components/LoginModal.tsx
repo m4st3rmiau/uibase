@@ -48,7 +48,7 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
           {/* Google Sign In Button */}
           <Button
             onClick={handleGoogleLogin}
-            className="flex w-full items-center justify-center gap-3 rounded-lg border border-gray-300 bg-white px-4 py-6 text-sm font-medium hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:text-black"
+            className="flex w-full items-center justify-center gap-3 rounded-lg border border-border bg-card px-4 py-6 text-sm font-medium hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
             variant="outline"
           >
             <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
@@ -74,13 +74,13 @@ export function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps)
           </Button>
 
           {/* Terms Text */}
-          <p className="text-center text-sm text-gray-500">
+          <p className="text-center text-sm text-muted-foreground">
             By clicking "Sign in with Google", I agree to BuilderUI's{" "}
-            <Link href="/terms" className="underline hover:text-gray-800">
+            <Link href="/terms" className="underline hover:text-foreground">
               Terms of Service
             </Link>{" "}
             and{" "}
-            <Link href="/privacy" className="underline hover:text-gray-800">
+            <Link href="/privacy" className="underline hover:text-foreground">
               Privacy Policy
             </Link>
           </p>
