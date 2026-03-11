@@ -1126,6 +1126,7 @@ ${themeVars[currentTheme as keyof typeof themeVars]?.dark || themeVars.blue.dark
                               <span className="text-xs text-muted-foreground">Aug 15</span>
                             </div>
                           </div>
+                        </div>
                         <div className="p-2 border-t text-center">
                           <Button variant="ghost" size="sm">
                             View All
