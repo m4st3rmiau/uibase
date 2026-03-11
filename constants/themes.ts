@@ -554,6 +554,8 @@ export const themes: Record<string, Theme> = {
       "--accent": "141 20% 92%",
       "--accent-foreground": "219 30% 18%",
       "--destructive": "0 84.2% 60.2%",
+      "--destructive-foreground": '0 0%   "219 30% 18%',
+      "--destructive": "0 84.2% 60.2%",
       "--destructive-foreground": "0 0% 98%",
       "--border": "219 30% 88%",
       "--input": "219 30% 88%",
