@@ -13,7 +13,7 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata = {
   title: "BuilderUI",
   description: "Create, customize, and export beautiful UI components with ease.",
-    generator: 'v0.dev'
+    generator: 'v0.app'
 }
 
 export default async function RootLayout({
@@ -41,6 +41,3 @@ export default async function RootLayout({
     </html>
   )
 }
-
-
-import './globals.css'
