@@ -13,7 +13,7 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata = {
   title: "BuilderUI",
   description: "Create, customize, and export beautiful UI components with ease.",
-    generator: 'v0.dev'
+    generator: 'v0.app'
 }
 
 export default async function RootLayout({
@@ -27,7 +27,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} min-h-screen flex flex-col antialiased`}>
+      <body className={`${inter.className} min-h-screen flex flex-col antialiased`} suppressHydrationWarning>
         <ErrorBoundary>
           <Providers>
             <div className="min-h-screen flex flex-col antialiased">
@@ -41,6 +41,3 @@ export default async function RootLayout({
     </html>
   )
 }
-
-
-import './globals.css'

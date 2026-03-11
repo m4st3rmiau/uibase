@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Sidebar } from "@/components/sidebar"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Input } from "@/components/ui/input"
-import { Maximize2, BarChart, Mail, ListTodo, Music, Layout, Palette } from "lucide-react"
+import { Maximize2, BarChart, Mail, ListTodo, Music, Layout, Palette, Check, ChevronsUpDown } from "lucide-react"
 import { useTheme } from "@/app/providers"
 import { applyTheme } from "@/lib/utils"
 import { themes } from "@/lib/themes"
@@ -18,6 +18,8 @@ import { cn } from "@/lib/utils"
 import type { ThemeRadius } from "@/app/providers"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import CodeViewer from "@/components/CodeViewer"
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 
 export default function ThemesPage() {
   const { currentTheme, radius, typography, setCurrentTheme, setRadius } = useTheme()
@@ -567,22 +569,58 @@ ${themeVars[currentTheme as keyof typeof themeVars]?.dark || themeVars.blue.dark
             </Button>
           </div>
           <div className="border-b border-border p-4 flex flex-wrap items-center gap-2">
-            <div className="flex flex-wrap gap-2 mr-4">
-              {Object.values(themes).map((t) => (
-                <Button
-                  key={t.name}
-                  variant="outline"
-                  size="sm"
-                  className={cn(
-                    "rounded-full px-0 h-8 w-8 flex items-center justify-center bg-background",
-                    currentTheme === t.name && "border-primary",
-                  )}
-                  onClick={() => handleThemeChange(t.name)}
-                  title={t.label}
-                >
-                  <div className="w-4 h-4 rounded-full" style={{ backgroundColor: t.activeColor }}></div>
-                </Button>
-              ))}
+            {/* Theme selection combobox */}
+            <div className="mr-4">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" role="combobox" className="w-[240px] justify-start">
+                    {currentTheme ? (
+                      <>
+                        <div className="grid shrink-0 grid-cols-2 gap-0.5 rounded-md p-1 shadow-sm">
+                          <div className="h-1 w-1 rounded-full" style={{ backgroundColor: themes[currentTheme]?.activeColor }} />
+                          <div className="h-1 w-1 rounded-full" style={{ backgroundColor: themes[currentTheme]?.cssVars?.["--primary"] ? `hsl(${themes[currentTheme].cssVars["--primary"]})` : '#888' }} />
+                          <div className="h-1 w-1 rounded-full" style={{ backgroundColor: themes[currentTheme]?.cssVars?.["--secondary"] ? `hsl(${themes[currentTheme].cssVars["--secondary"]})` : '#aaa' }} />
+                          <div className="h-1 w-1 rounded-full" style={{ backgroundColor: themes[currentTheme]?.cssVars?.["--muted"] ? `hsl(${themes[currentTheme].cssVars["--muted"]})` : '#ccc' }} />
+                        </div>
+                        {themes[currentTheme]?.label || "Select theme"}
+                      </>
+                    ) : (
+                      "Select theme"
+                    )}
+                    <ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[240px] p-0">
+                  <Command>
+                    <CommandInput placeholder="Search themes..." />
+                    <CommandList>
+                      <CommandEmpty>No theme found.</CommandEmpty>
+                      <CommandGroup className="max-h-[300px] overflow-y-auto">
+                        {Object.values(themes).map((theme) => (
+                          <CommandItem
+                            key={theme.name}
+                            value={theme.name}
+                            onSelect={(value) => {
+                              handleThemeChange(value)
+                            }}
+                          >
+                            <div className="flex items-center gap-2">
+                              <div className="h-4 w-4 rounded-full" style={{ backgroundColor: theme.activeColor }} />
+                              <span>{theme.label}</span>
+                            </div>
+                            <Check
+                              className={cn(
+                                "ml-auto h-4 w-4",
+                                currentTheme === theme.name ? "opacity-100" : "opacity-0",
+                              )}
+                            />
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
             </div>
             <Separator orientation="vertical" className="h-6" />
             <div className="flex gap-2 ml-4">
@@ -598,6 +636,7 @@ ${themeVars[currentTheme as keyof typeof themeVars]?.dark || themeVars.blue.dark
                 </Button>
               ))}
             </div>
+
             <div className="ml-auto">
               <Button size="sm" className="bg-black text-white hover:bg-black/90" onClick={handleViewThemeCode}>
                 View code
@@ -636,7 +675,7 @@ ${themeVars[currentTheme as keyof typeof themeVars]?.dark || themeVars.blue.dark
                   </TabsList>
 
                   {/* Cards Tab */}
-                  <TabsContent value="cards" className="p-4">
+                  <TabsContent value="cards">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                       {/* Revenue Card */}
                       <Card className="overflow-hidden">
@@ -1419,11 +1458,11 @@ ${themeVars[currentTheme as keyof typeof themeVars]?.dark || themeVars.blue.dark
           <DialogHeader>
             <DialogTitle>Theme Code</DialogTitle>
           </DialogHeader>
-          <div className="bg-[#101012] rounded-md overflow-hidden h-[calc(90vh-8rem)]">
+          <div className="bg-[#101012] rounded-md overflow-hidden h-[calc(90vh - 8rem)]">
             <CodeViewer code={getThemeCode()} language="javascript" />
           </div>
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }

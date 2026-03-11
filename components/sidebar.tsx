@@ -146,7 +146,7 @@ export function Sidebar({ initialSelectedIcon }: SidebarProps) {
             variant="ghost"
             size="icon"
             onClick={() => handleIconClick("help")}
-            className="hover:bg-zinc-100 dark:hover:bg-zinc-800"
+            className="hover:bg-accent"
           >
             <HelpCircle className="h-5 w-5" />
           </Button>
@@ -207,7 +207,7 @@ export function Sidebar({ initialSelectedIcon }: SidebarProps) {
                       href="https://github.com/m4st3rmiau"
                       icon={<Github className="h-4 w-4" />}
                       label="GitHub"
-                      color="bg-black text-white dark:bg-zinc-800"
+                      color="bg-foreground text-background"
                     />
                     <SocialLink
                       href="https://x.com/Maoo_lop"

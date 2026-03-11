@@ -43,10 +43,10 @@ export function EditableContainer({ props, children, onAddComponent }: EditableC
   } = props
 
   const variantStyles = {
-    default: "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700",
-    outline: "border border-gray-200 dark:border-gray-700 bg-transparent",
+    default: "bg-card border border-border",
+    outline: "border border-border bg-transparent",
     ghost: "bg-transparent",
-    shadow: "bg-white dark:bg-gray-800 shadow-md",
+    shadow: "bg-card shadow-md",
     custom: "",
   }
 
@@ -73,7 +73,7 @@ export function EditableContainer({ props, children, onAddComponent }: EditableC
   }
 
   const backgroundColorStyles = {
-    default: "bg-white dark:bg-gray-800",
+    default: "bg-card",
     primary: "bg-primary",
     secondary: "bg-secondary",
     accent: "bg-accent",
@@ -82,7 +82,7 @@ export function EditableContainer({ props, children, onAddComponent }: EditableC
   }
 
   const borderColorStyles = {
-    default: "border-gray-200 dark:border-gray-700",
+    default: "border-border",
     primary: "border-primary",
     secondary: "border-secondary",
     accent: "border-accent",
@@ -124,7 +124,7 @@ export function EditableContainer({ props, children, onAddComponent }: EditableC
                     variant="outline"
                     size="sm"
                     onClick={onAddComponent}
-                    className="w-full dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+                    className="w-full"
                   >
                     <PlusCircle className="mr-2 h-4 w-4" />
                     Add More Components
@@ -140,7 +140,7 @@ export function EditableContainer({ props, children, onAddComponent }: EditableC
                   variant="outline"
                   size="sm"
                   onClick={onAddComponent}
-                  className="dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+                  className=""
                 >
                   <PlusCircle className="mr-2 h-4 w-4" />
                   Add Component

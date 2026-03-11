@@ -172,7 +172,7 @@ export function Navbar({ initialSession }: { initialSession: any | null }) {
     <nav className="fixed top-0 left-0 right-0 bg-background z-50 border-b border-border">
       <div className="flex h-16 items-center px-6 justify-between max-w-screen-2xl mx-auto">
         <Link href="/">
-          <Image src="/logo.png" alt="uibase Logo" width={110} height={0} />
+          <Image src="/logo.png" alt="uibase Logo" width={110} height={40} style={{ height: 'auto' }} />
         </Link>
         {!isMobile && (
           <nav className="flex-1 flex justify-center">
