@@ -27,7 +27,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} min-h-screen flex flex-col antialiased`}>
+      <body className={`${inter.className} min-h-screen flex flex-col antialiased`} suppressHydrationWarning>
         <ErrorBoundary>
           <Providers>
             <div className="min-h-screen flex flex-col antialiased">
